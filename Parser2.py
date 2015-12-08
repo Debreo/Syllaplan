@@ -26,11 +26,11 @@ def main():
                         dates.append((cell.text.strip()))
                         #print cell.text
                     else:
-                        assignments.append(cell.text.strip())
+                        assignments.append(cell.text.replace("\n"," "))
     #print len(assignments)
     #assignments.remove("\n")
-    tasks = len(assignments)
-    due =  len(dates)-1 
+    #tasks = len(assignments)
+    #due =  len(dates)-1 
     #print dates
     #print assignments
     #print dates
@@ -38,9 +38,11 @@ def main():
     #print assignments
     duedates = OrderedDict(zip(dates, assignments))
    # print duedates
-    for x in  duedates.items():
-        print x
-    
+    for x,y in  duedates.items():
+        duetext = x,y
+        print x.encode('utf-8')+" "+ y.encode('utf-8') 
+        #print yaml.dump(str(duetext)).encode('utf-8')
+    #print dates[0],duedates[dates[0]] 
     #print duedates.keys()
     #datez = duedates.items()
     #print datez[0]
