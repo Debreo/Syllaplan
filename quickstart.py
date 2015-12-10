@@ -71,36 +71,18 @@ def main():
     for table in wordDoc:
         for row in table.rows:
             for cell in row.cells:
-                if "\n" in (cell.text).encode('utf-8'):
-                    if re.findall('\n?\w+\s\d+\/\d+\n',cell.text.encode('utf-8')):
+                if "\n" in (cell.text).encode('utf-8') or "/" in (cell.text).encode('utf-8'):
+                    if re.findall('\n?\w+\s\d+\/\d+\n?',cell.text.encode('utf-8')):
 
                         dates.append((cell.text.strip()))
                     else:
                         assignments.append(cell.text.replace("\n"," "))
-    tasks = len(assignments)
-    due =  len(dates)-1
     duedates = OrderedDict(zip(dates, assignments))
-    #for x in  duedates.items():
-    #    print x    
-    #datetext = dates[0],duedates[dates[0]]
     for x,y in  duedates.items():
         duetext = x.encode('utf-8')+" "+ y.encode('utf-8')  
         created_event = service.events().quickAdd(calendarId='primary',
         text=duetext).execute()
     print (created_event)
-    #print created_event['id']    
-#    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-#    print('Getting the upcoming 10 events')
-#    eventsResult = service.events().list(
-#        calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
-#        orderBy='startTime').execute()
-#    events = eventsResult.get('items', [])
-
-#    if not events:
-#        print('No upcoming events found.')
-#    for event in events:
-#        start = event['start'].get('dateTime', event['start'].get('date'))
-#        print(start, event['summary'])
 
 
 if __name__ == '__main__':
