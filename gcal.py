@@ -94,11 +94,11 @@ def main():
                         nargs = "+",
                         help=" The File to extract")
     args = syllabus.parse_args()  
+    dates = []
+    assignments = []
     for sylla in args.file:
         document = Document(sylla)
         wordDoc = document.tables 
-        dates = []
-        assignments = []
         for table in wordDoc:
             for row in table.rows:
                 for cell in row.cells:
@@ -117,18 +117,18 @@ def main():
                                 if "" != items:
                                     (assignments.append(items.strip().replace("\n"," ").replace("\xe2\x80\x93","")))
                     
-        duedates = OrderedDict(zip(dates, assignments))
+    duedates = OrderedDict(zip(dates, assignments))
         #print (duedates)
 
 
-        for x,y in  duedates.items():
+    for x,y in  duedates.items():
             #duetext = x.encode('utf-8')+" "+ y.encode('utf-8')  
-            duetext = x + "/"+str(now.year)+ " "+y
+        duetext = x + "/"+str(now.year)+ " "+y
             #print (duetext)
-            created_event = service.events().quickAdd(calendarId='primary',
-            text=duetext).execute()
-        print (created_event)
-        print ("Events have been created please check your calendar")
+        created_event = service.events().quickAdd(calendarId='primary',
+        text=duetext).execute()
+    print (created_event)
+    print ("Events have been created please check your calendar")
 
 if __name__ == '__main__':
     main()
